@@ -1,89 +1,59 @@
-# Solid - Free Next.js Web Template and Starter Kit for SaaS
+# **GoDeskless RAG Client Application**
 
-Solid is a free Next.js template specifically crafted for startups, SaaS, and software websites. It provides an extensive array of necessary sections, elements, and pages required to build a fully-equipped website for any SaaS, software, or startup site. Comes with all cutting edge React and Next.js features - **Built with Next.js 13, React 18 and TypeScript.**
+### **🚀 Built with Next.js**  
+This repository contains the frontend of the **GoDeskless RAG Application**. It is built using the powerful **Next.js framework**, providing server-side rendering and optimized performance to ensure a smooth user experience.
 
-This Next.js template's homepage comes with an awesome hero area, logos of associated brands, a features section, an about section, another features section with tabs, counters, and star ratings, integration options, clear call-to-actions, an FAQ section with accordions, a testimonials section, pricing tables, a contact page, a blog, and a distinctive footer.
+---
 
-**Solid Next.js template packed with all necessary external pages** - such as login, registration, blog grids, and single blog pages, among others. This broad collection of pages provides all the necessary tools to create a feature-packed, comprehensive, and visually appealing website or landing page for software, a web application, or SaaS.
+## **📖 Table of Contents**
 
-### [🔥 Get Solid Pro - Next.js SaaS Boilerplate and Starter Kit](https://nextjstemplates.com/templates/solid)
+- [About](#about)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running Locally](#running-locally)
+- [Project Structure](#project-structure)
+- [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-![Startup Pro](https://uideck.com/wp-content/uploads/edd/2023/07/solid-saas.png)
+---
 
-### [🚀 Solid PRO Live Demo](https://solid.nextjstemplates.com/)
+## **🧐 About**
 
-### [🚀 Solid FREE Live Demo](https://solid-free.nextjstemplates.com/)
+The GoDeskless RAG Client Application is the **frontend interface** for the RAG (Retrieval Augmented Generation) system. It offers an intuitive UI for interacting with backend services, ensuring a seamless user experience for managing and visualizing data.
 
-### TailAdmin React PRO vs TailAdmin React FREE Comparison 📊
+---
 
-#### [Solid PRO](https://solid.nextjstemplates.com/)
-- SaaS Boilerplate + Starter Kit with Essential Integrations and Functionalities
-- Essential Integrations: Auth, DB, Stripe, MDX and More ...
-- Fully Functional, Ready to Use Sanity Blog Support
-- Premium Email Support
-- Functional External Pages
-- Free Lifetime Future Updates
-___
-#### [Solid FREE](https://solid-free.nextjstemplates.com/)
-- Only UI - Coded for Next.js
-- No Integrations
-- No Functional Blogging System
-- External Pages without Functions/Integrations
-- Community Support
-- Free Lifetime Future Updates
-___
+## **✨ Features**
 
-### [📦 Download](https://nextjstemplates.com/templates/solid)
+- **Dynamic Rendering:** Uses Next.js for server-side and static generation.
+- **Optimized Performance:** Lightweight and fast frontend for better user interaction.
+- **Scalable Architecture:** Modular structure to support future enhancements.
+- **Responsive Design:** Fully optimized for desktops, tablets, and mobile devices.
 
-### [🔥 Get Pro](https://nextjstemplates.com/templates/solid)
+---
 
-### [🔌 Documentation](https://nextjstemplates.com/docs)
+## **🛠️ Tech Stack**
 
-### ⚡ Deploy Now
+- **Framework:** [Next.js](https://nextjs.org/)
+- **Styling:** [CSS Modules](https://github.com/css-modules/css-modules) / [Tailwind CSS](https://tailwindcss.com/)
+- **API Integration:** [GraphQL](https://graphql.org/) for data fetching and mutations
+- **State Management:** React Context API / Redux (if applicable)
+- **Version Control:** Git & GitHub
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNextJSTemplates%2Fsolid-nextjs)
+---
 
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/NextJSTemplates/solid-nextjs)
+## **🚀 Getting Started**
 
+Follow these steps to set up the project locally.
 
-## Installation
+### **Prerequisites**
 
-Here are the steps you need to follow to install the dependencies.
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- A GitHub account and `git` installed on your system
 
-1.Download and extract the template from **Next.js Templates.**
-
-2.**cd** into the template directory then run this command to install all the dependencies
-    
-```bash
-    npm install
-```
-    
-or
-    
-```bash
-    yarn install
- ```
-
-
-You can start the project on the local server
-    
-```bash
-    npm run dev
- ```
-
-It’ll start the template on [localhost:3000](http://localhost:3000). 
-
-The documentation includes all the guides you need for the integrations. 
-
-
-### Deploying on PaaS
-
-If you are using a GitHub repo then you can go with free-of-cost and easy-to-use options like [Vercel](https://vercel.com/), or [Netlify](https://netlify.com/) they offer decent-free tiers for Next.js hosting.
-
-### 📄 License
-Solid Free is 100% free and open-source, feel free to use with your personal and commercial projects.
-
-### 💜 Support
-If you like the template, please star this repository to inspire the team to create more stuff like this and reach more users like you!
-
-### ✨ Browse and Download - Best Free [Next.js Templates](https://nextjstemplates.com/templates)
