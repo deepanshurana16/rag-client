@@ -56,7 +56,7 @@ export default function GoDeskless() {
 
     try {
       setLoading(true);
-      const res = await axios.post("https://3aa8-103-226-169-56.ngrok-free.app/upload/", formData, {
+      const res = await axios.post("https://df52-103-226-169-56.ngrok-free.app/upload/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -91,7 +91,7 @@ export default function GoDeskless() {
     setLoading(true);
 
     try {
-      const res = await axios.post("https://3aa8-103-226-169-56.ngrok-free.app/ask/", {
+      const res = await axios.post("https://df52-103-226-169-56.ngrok-free.app/ask/", {
         prompt: input,
       });
       setMessages((prev) => [
@@ -124,7 +124,7 @@ export default function GoDeskless() {
     setLoading(true);
 
     try {
-      const res = await axios.post("https://3aa8-103-226-169-56.ngrok-free.app/insights/", {
+      const res = await axios.post("https://df52-103-226-169-56.ngrok-free.app/insights/", {
         prompt: input,
       });
       setMessages((prev) => [
@@ -149,7 +149,7 @@ export default function GoDeskless() {
 
   const fetchDocuments = async () => {
     try {
-      const response = await axios.get("https://3aa8-103-226-169-56.ngrok-free.app/documents/");
+      const response = await axios.get("https://df52-103-226-169-56.ngrok-free.app/documents/");
       setDocuments(response.data.documents || []);
       setShowDocuments(!showDocuments);
     } catch (err: any) {
