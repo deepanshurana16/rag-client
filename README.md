@@ -13,12 +13,6 @@ This repository contains the frontend of the **GoDeskless RAG Application**. It 
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Running Locally](#running-locally)
-- [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
