@@ -35,8 +35,8 @@ The GoDeskless RAG Client Application is the **frontend interface** for the RAG 
 
 - **Framework:** [Next.js](https://nextjs.org/)
 - **Styling:** [CSS Modules](https://github.com/css-modules/css-modules) / [Tailwind CSS](https://tailwindcss.com/)
-- **API Integration:** [GraphQL](https://graphql.org/) for data fetching and mutations
-- **State Management:** React Context API / Redux (if applicable)
+- **API Integration:** [FAST API] for data fetching and mutations
+- **State Management:** React Context API / Redux 
 - **Version Control:** Git & GitHub
 
 ---
