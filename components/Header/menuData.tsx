@@ -71,7 +71,7 @@ const menuData: Menu[] = [
   },
   {
     id:5,
-    title: "Go to Playground 🛠️",
+    title: "Try I·S·R·A 🛠️",
     newTab:false,
     path:"/godeskless"
   }

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import SectionHeader from "../Common/SectionHeader";
 import whatsapp from "../../assets/whatsapp.png"
+import mail from "../../public/images/brand/mail2.png"
 
 const Integration = () => {
   return (
@@ -62,7 +63,7 @@ const Integration = () => {
                 <Image
                   width={50}
                   height={50}
-                  src="./images/brand/brand-07.svg"
+                  src={mail}
                   alt="Brand"
                 />
               </div>

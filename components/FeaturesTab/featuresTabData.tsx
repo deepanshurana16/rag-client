@@ -7,8 +7,8 @@ const featuresTabData: FeatureTab[] = [
     title: "Cutting-Edge AI Models",
     desc1: `Powered by Llama 3.2`,
     desc2: `Experience the power of advanced AI with Llama 3.2, designed to process and understand your documents with unparalleled precision.`,
-    image: "/images/features/llama.png",
-    imageDark: "/images/features/llama.png",
+    image: "/images/features/llama4.png",
+    imageDark: "/images/features/llama4.png",
   },
   {
     id: "tabTwo",

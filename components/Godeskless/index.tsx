@@ -1,5 +1,6 @@
 "use client"
 
+import type React from "react"
 import { useState, useEffect } from "react"
 import { Upload, Send, Lightbulb, List } from "lucide-react"
 import axios from "axios"
@@ -55,7 +56,7 @@ export default function GoDeskless() {
 
     try {
       setLoading(true)
-      const res = await axios.post("https://df52-103-226-169-56.ngrok-free.app/upload/", formData, {
+      const res = await axios.post("https://f9fc-115-160-222-114.ngrok-free.app/upload/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -87,7 +88,7 @@ export default function GoDeskless() {
     setLoading(true)
 
     try {
-      const res = await axios.post("https://df52-103-226-169-56.ngrok-free.app/ask/", {
+      const res = await axios.post("https://f9fc-115-160-222-114.ngrok-free.app/ask/", {
         prompt: input,
       })
       setMessages((prev) => [...prev.slice(0, -1), { role: "assistant", content: res.data.answer }])
@@ -115,7 +116,7 @@ export default function GoDeskless() {
     setLoading(true)
 
     try {
-      const res = await axios.post("https://df52-103-226-169-56.ngrok-free.app/insights/", {
+      const res = await axios.post("https://f9fc-115-160-222-114.ngrok-free.app/insights/", {
         prompt: input,
       })
       setMessages((prev) => [...prev.slice(0, -1), { role: "assistant", content: "AI Insight: " + res.data.insight }])
@@ -135,7 +136,7 @@ export default function GoDeskless() {
 
   const fetchDocuments = async () => {
     try {
-      const response = await axios.get("https://df52-103-226-169-56.ngrok-free.app/documents/")
+      const response = await axios.get("https://f9fc-115-160-222-114.ngrok-free.app/documents/")
       setDocuments(response.data.documents || [])
       setShowDocuments(!showDocuments)
     } catch (err: any) {
@@ -173,13 +174,13 @@ export default function GoDeskless() {
                         Let's try I·S·R·A
                       </h2>
                       <p className="mb-2 text-sm text-gray-600 dark:text-gray-300 sm:mb-4 sm:text-base">
-                        To get started, please upload a document:
+                        To get started, first choose a file and then upload the document.
                       </p>
-                      <div className="flex flex-col items-start space-y-2 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+                      <div className="flex flex-col items-start space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                         <input
                           type="file"
                           onChange={handleFileUpload}
-                          className="w-full flex-grow text-sm text-gray-500 file:mr-2 file:rounded-full file:border-0 file:bg-blue-50 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100 sm:w-auto sm:file:mr-4 sm:file:px-4 sm:file:py-2"
+                          className="w-2/3 sm:w-1/3 text-sm text-gray-500 file:mr-2 file:rounded-full file:border-0 file:bg-blue-50 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100 sm:file:mr-4 sm:file:px-4 sm:file:py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg border border-blue-500 dark:border-blue-700"
                         />
                         {loading ? (
                           <div className="flex items-center justify-center">
@@ -189,7 +190,7 @@ export default function GoDeskless() {
                           <button
                             onClick={uploadFile}
                             disabled={!file}
-                            className="flex w-full items-center justify-center rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600 disabled:opacity-50 sm:w-auto sm:px-4 sm:py-2 sm:text-base"
+                            className="flex w-full sm:w-auto items-center justify-center rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600 disabled:opacity-50 sm:px-4 sm:py-2 sm:text-base"
                           >
                             <Upload className="mr-1 h-4 w-4 sm:mr-2" /> Upload
                           </button>
