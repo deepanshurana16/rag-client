@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Typewriter } from "react-simple-typewriter";
 import { useState } from "react";
-import homepage from "../../assets/homepage.png";
+import homepage from "../../assets/coverpagefin.png";
 
 const Hero = () => {
   const [email, setEmail] = useState("");
@@ -66,18 +66,20 @@ const Hero = () => {
                   height={21.66}
                   className="absolute -right-6.5 bottom-0 z-1"
                 />
-                <div className=" relative aspect-[700/444] w-full">
+                <div className="rounded-xl relative aspect-[600/444] w-full">
                   <Image
-                    className="rounded-xl shadow-solid-l dark:hidden"
+                    className=" shadow-solid-l dark:hidden"
                     src={homepage}
                     alt="Hero"
-                    fill
+                    width={900}
+                    height={400}
                   />
                   <Image
-                    className="hidden rounded-xl shadow-solid-l dark:block"
+                    className="rounded-xl hidden shadow-solid-l dark:block"
                     src={homepage}
                     alt="Hero"
-                    fill
+                    width={900}
+                    height={400}
                   />
                 </div>
               </div>

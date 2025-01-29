@@ -15,7 +15,7 @@ import Testimonial from "@/components/Testimonial";
 import GoDeskless from "@/components/Godeskless";
 
 export const metadata: Metadata = {
-  title: "Intelligent Support Resolution System",
+  title: "Intelligent Support & Resolution System",
   description: "GoDeskless's AI-powered solution that provides accurate answers by retrieving information directly from your uploaded documents.",
 };
 

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import ctapage from "../../assets/ctapage.png"
+import ctapage from "../../assets/cta1.webp"
 
 const About = () => {
   return (
@@ -67,12 +67,12 @@ const About = () => {
                 GoDeskless Rag Solution
               </span>
               <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
-              Your Intelligent Knowledge Base {" "} <span className="relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg dark:before:bg-titlebgdark">
-              Search Assistant
+                Your Intelligent Knowledge Base {" "} <span className="relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg dark:before:bg-titlebgdark">
+                  Search Assistant
                 </span>
               </h2>
               <p>
-              Go beyond conventional AI with our Retrieval-Augmented Generation (RAG) application. Upload your documents, and our model enables dynamic, real-time conversations by finding precise answers directly from your content.
+                Go beyond conventional AI with our Retrieval-Augmented Generation (RAG) application. Upload your documents, and our model enables dynamic, real-time conversations by finding precise answers directly from your content.
               </p>
 
               <div className="mt-7.5 flex items-center gap-5">
@@ -83,7 +83,7 @@ const About = () => {
                 </div>
                 <div className="w-3/4">
                   <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                  Smart Retrieval
+                    Smart Retrieval
                   </h3>
                   <p>Combines the power of llama 3.2 with knowledge base-specific insights.</p>
                 </div>
@@ -139,7 +139,7 @@ const About = () => {
                 </span>
               </h2>
               <p>
-              Upload any document type, from PDFs to manuals, and start conversing with a model designed to simplify your search process.
+                Upload any document type, from PDFs to manuals, and start conversing with a model designed to simplify your search process.
               </p>
               <div>
                 <a
@@ -162,35 +162,36 @@ const About = () => {
             </motion.div>
             <motion.div
               variants={{
-                hidden: {
-                  opacity: 0,
-                  x: 20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  x: 0,
-                },
+                hidden: { opacity: 0, x: 20 },
+                visible: { opacity: 1, x: 0 },
               }}
               initial="hidden"
               whileInView="visible"
               transition={{ duration: 1, delay: 0.1 }}
               viewport={{ once: true }}
-              className="animate_right relative mx-auto hidden aspect-[588/526.5] md:block md:w-3/4"
+              className="animate_right relative mx-auto hidden md:block md:w-full overflow-hidden"
             >
               <Image
                 src={ctapage}
                 alt="About"
-                className="dark:hidden rounded-xl"
-                fill
+                className="dark:hidden rounded-xl object-cover"
+                width={1400}  
+                height={950}  
+                layout="intrinsic"
+                objectPosition="top center"
               />
+
               <Image
                 src={ctapage}
                 alt="About"
-                className="hidden dark:block rounded-xl"
-                fill
+                className="hidden dark:block rounded-xl object-contain"
+                width={1400}  
+                height={950}  
+                layout="intrinsic"
+                objectPosition="center"
               />
             </motion.div>
+
           </div>
         </div>
       </section>
