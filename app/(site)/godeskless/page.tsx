@@ -4,7 +4,7 @@ import GoDeskless from "@/components/Godeskless";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "GoDeskless Intelligent Support & Resolution System (ISRS)",
+  title: "GoDeskless Intelligent Support & Resolution Assistant (ISRA)",
   description: "RAG Pipeline built for processing documents and quering data",
 };
 

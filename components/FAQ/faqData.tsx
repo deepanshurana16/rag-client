@@ -3,8 +3,8 @@ import { FAQ } from "@/types/faq";
 const faqData: FAQ[] = [
   {
     id: 1,
-    quest: "What is GoDeskless ISRS AI, and how does it work?",
-    ans: "GoDeskless ISRS  stands for Retrieval-Augmented Generation Artificial Intelligence. It uses AI to retrieve relevant data from uploaded documents and provide precise answers to user queries.",
+    quest: "What is GoDeskless ISRA AI, and how does it work?",
+    ans: "GoDeskless ISRA  stands for Retrieval-Augmented Generation Artificial Intelligence. It uses AI to retrieve relevant data from uploaded documents and provide precise answers to user queries.",
   },
   {
     id: 2,

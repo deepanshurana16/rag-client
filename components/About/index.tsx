@@ -130,7 +130,7 @@ const About = () => {
               className="animate_left md:w-1/2"
             >
               <h4 className="font-medium uppercase text-black dark:text-white">
-                UTILISE OUR RAG ISRS FAST
+                UTILISE OUR RAG ISRA FAST
               </h4>
               <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
                 Packed with All Essential {"   "}

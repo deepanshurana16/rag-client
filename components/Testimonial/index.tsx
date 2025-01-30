@@ -22,7 +22,7 @@ const Testimonial = () => {
               headerInfo={{
                 title: `TESTIMONIALS`,
                 subtitle: `Client’s Testimonials`,
-                description: `Hear directly from our clients how GoDeskless ISRS has revolutionized their workflows, improved efficiency, and empowered their teams.`,
+                description: `Hear directly from our clients how GoDeskless ISRA has revolutionized their workflows, improved efficiency, and empowered their teams.`,
               }}
             />
           </div>

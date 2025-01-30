@@ -33,6 +33,6 @@ export const testimonialData: Testimonial[] = [
     designation: "CEO @SmartWater Solutions",
     image: image2,
     content:
-      "The GoDeskless ISRS platform has significantly optimized our water management operations. Real-time access to data and seamless collaboration have been pivotal in our success.",
+      "The GoDeskless ISRA platform has significantly optimized our water management operations. Real-time access to data and seamless collaboration have been pivotal in our success.",
   },
 ];

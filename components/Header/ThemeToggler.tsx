@@ -17,7 +17,6 @@ const ThemeToggler = () => {
         height={21}
         className="dark:hidden"
       />
-
       <Image
         src="/images/icon/icon-sun.svg"
         alt="logo"
