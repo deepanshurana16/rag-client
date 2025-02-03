@@ -62,7 +62,7 @@ const GoDeskless = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://f9fc-115-160-222-114.ngrok-free.app/upload/",
+        "http://127.0.0.1:8000/upload/",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -96,7 +96,7 @@ const GoDeskless = () => {
 
     try {
       const res = await axios.post(
-        "https://f9fc-115-160-222-114.ngrok-free.app/ask/",
+        "http://127.0.0.1:8000/ask/",
         { prompt: input },
       );
       setMessages((prev) => [
@@ -129,7 +129,7 @@ const GoDeskless = () => {
 
     try {
       const res = await axios.post(
-        "https://f9fc-115-160-222-114.ngrok-free.app/insights/",
+        "http://127.0.0.1:8000/insights/",
         { prompt: input },
       );
       setMessages((prev) => [
