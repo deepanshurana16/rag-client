@@ -159,7 +159,6 @@ const GoDeskless = () => {
     }
   };
 
-  // Main UI Return Logic
   if (!isUploaded) {
     return (
       <div className="flex min-h-screen flex-col">
