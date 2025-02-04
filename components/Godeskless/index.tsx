@@ -62,7 +62,7 @@ const GoDeskless = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://127.0.0.1:8000/upload/",
+        "http://35.90.0.216/upload/",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -96,7 +96,7 @@ const GoDeskless = () => {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/ask/",
+        "http://35.90.0.216/ask/",
         { prompt: input },
       );
       setMessages((prev) => [
@@ -129,7 +129,7 @@ const GoDeskless = () => {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/insights/",
+        "http://35.90.0.216/insights/",
         { prompt: input },
       );
       setMessages((prev) => [
