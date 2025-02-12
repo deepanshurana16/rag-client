@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Upload, Send, User } from "lucide-react";
+import { Upload, Send, User, Mic } from "lucide-react"; 
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import stars from "../../assets/starsslate1.png";
 import gemini from "../../assets/geminii.png";
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   role: "user" | "assistant";
@@ -21,7 +23,11 @@ const GoDeskless = () => {
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(true);
   const messageListRef = useRef<HTMLDivElement>(null);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ticketId, setTicketId] = useState("");
+  const [ticketSubject, setTicketSubject] = useState("");
+  const [resolution, setResolution] = useState("");
+  const [isRecording, setIsRecording] = useState<boolean>(false); 
   const uploadButtonText = loading ? "Uploading..." : "Upload Document";
   const uploadButtonDisabled = !file || loading;
   const inputFieldStyle = `w-full resize-none rounded-lg border-2 border-black px-4 py-2 pr-24 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white`;
@@ -62,7 +68,7 @@ const GoDeskless = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://35.90.0.216:8000/upload/",
+        "http://127.0.0.1:8000/upload/",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -96,7 +102,7 @@ const GoDeskless = () => {
 
     try {
       const res = await axios.post(
-        "http://35.90.0.216:8000/ask/",
+        "http://127.0.0.1:8000/ask/",
         { prompt: input },
       );
       setMessages((prev) => [
@@ -129,7 +135,7 @@ const GoDeskless = () => {
 
     try {
       const res = await axios.post(
-        "http://35.90.0.216:8000/insights/",
+        "http://127.0.0.1:8000/insights/",
         { prompt: input },
       );
       setMessages((prev) => [
@@ -152,10 +158,71 @@ const GoDeskless = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    if (!ticketId || !ticketSubject || !resolution) {
+      alert("All fields are required");
+      return;
+    }
+    setLoading(true);
+    try {
+      await axios.post("http://127.0.0.1:8000/ticket", {
+      ticket_id: ticketId,
+      ticket_subject: ticketSubject,  
+        resolution,
+      });
+      alert("Ticket submitted successfully!");
+      setIsModalOpen(false);
+      setTicketId("");
+      setTicketSubject("");
+      setResolution("");
+    } catch (error) {
+      console.error("Error submitting ticket", error);
+      alert("Failed to submit ticket");
+      setTicketId("");
+      setTicketSubject("");
+      setResolution("");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       askQuestion();
+    }
+  };
+
+  const startListening = () => {
+    if (window.SpeechRecognition || (window as any).webkitSpeechRecognition) {
+      const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      // recognition.lang = "en-US";
+      recognition.lang = "en-US";
+      recognition.continuous = true;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        setIsRecording(true);  
+      };
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);  
+      };
+
+      recognition.onend = () => {
+        setIsRecording(false); 
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error("Speech recognition error:", event.error);
+      };
+
+      recognition.start();
+    } else {
+      alert("Speech recognition is not supported in this browser.");
     }
   };
 
@@ -209,6 +276,7 @@ const GoDeskless = () => {
     );
   }
 
+
   return (
     <div className="flex h-full flex-col">
       {/* Messages */}
@@ -225,6 +293,7 @@ const GoDeskless = () => {
                 message.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
+              
               {message.role === "assistant" && (
                 <Image
                   src={gemini}
@@ -234,8 +303,14 @@ const GoDeskless = () => {
                   className="mr-2 h-4 w-4 rounded-full sm:h-10 sm:w-10"
                 />
               )}
-              <div className={messageContentStyle(message.role)}>
-                <p className="text-sm">{message.content}</p>
+              <div
+                className={`rounded-lg px-4 py-2 ${
+                  message.role === "user"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white"
+                }`}
+              >
+                <ReactMarkdown className="prose" remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
               </div>
               {message.role === "user" && (
                 <div
@@ -290,6 +365,13 @@ const GoDeskless = () => {
             />
             <div className="absolute right-2 flex space-x-2">
               <button
+                onClick={startListening}
+                disabled={isRecording || loading}
+                className={`rounded-lg p-2 ${isDark ? "text-gray-400" : "text-gray-600"} disabled:brightness-150% hover:brightness-50 hover:filter`}
+              >
+                <Mic className="h-5 w-5" />
+              </button>
+              <button
                 onClick={askQuestion}
                 disabled={loading || !input.trim()}
                 className={`rounded-lg p-2 ${
@@ -311,6 +393,54 @@ const GoDeskless = () => {
               >
                 <Image src={stars} alt="Send" className="h-7 w-7" />
               </button>
+              <button onClick={() => setIsModalOpen(true)}>
+        <Image src={gemini} alt="Gemini" className="h-7 w-7" />
+      </button>
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full h-full">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 max-w-full flex-col">
+            <h2 className="text-xl font-semibold mb-4">Submit Ticket</h2>
+            <input
+              type="text"
+              placeholder="#ticket id"
+              value={ticketId}
+              onChange={(e) => setTicketId(e.target.value)}
+              className="w-full mb-2 p-2 border rounded"
+            />
+            <input
+              type="text"
+              placeholder="ticket subject"
+              value={ticketSubject}
+              onChange={(e) => setTicketSubject(e.target.value)}
+              className="w-full mb-2 p-2 border rounded"
+            />
+            <textarea
+              placeholder="kaise resolve hua"
+              value={resolution}
+              onChange={(e) => setResolution(e.target.value)}
+              className="w-full mb-2 p-2 border rounded"
+            ></textarea>
+            <div className="flex justify-center space-x-2">
+              <button
+                onClick={() => {setIsModalOpen(false);
+                  setTicketId("");
+                  setTicketSubject("");
+                  setResolution("");}}
+                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
             </div>
           </div>
         </div>
