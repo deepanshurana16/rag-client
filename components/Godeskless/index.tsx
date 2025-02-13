@@ -380,14 +380,16 @@ const GoDeskless = () => {
               <Send className="h-5 w-5" />
             </button>
             <button
-              onClick={fetchInsight}
-              disabled={loading || !input.trim()}
-              className={`rounded-lg p-2 ${
-                isDark ? "text-gray-400 hover:text-black" : "text-gray-600 hover:text-gray-900"
-              } disabled:brightness-50 hover:brightness-50 hover:filter`}
-            >
-              <Image src={stars || "/placeholder.svg"} alt="Send" className="h-7 w-7" />
-            </button>
+                onClick={fetchInsight}
+                disabled={loading || !input.trim()}
+                className={`rounded-lg p-2 ${
+                  isDark
+                    ? "text-gray-400 hover:text-black"
+                    : "text-gray-600 hover:text-gray-900"
+                } disabled:brightness-150% hover:brightness-50 hover:filter`}
+              >
+                <Image src={stars || "/placeholder.svg"} alt="Send" className="h-7 w-7" />
+              </button>
             <button onClick={() => setIsModalOpen(true)}>
               <Image src={gemini || "/placeholder.svg"} alt="Gemini" className="h-7 w-7" />
             </button>
