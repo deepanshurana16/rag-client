@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Upload, Send, User, Mic } from "lucide-react"; 
+import { Upload, Send, User, Mic } from "lucide-react";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import stars from "../../assets/starsslate1.png";
 import gemini from "../../assets/geminii.png";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from 'remark-gfm';
+import remarkGfm from "remark-gfm";
 
 interface Message {
   role: "user" | "assistant";
@@ -27,7 +27,8 @@ const GoDeskless = () => {
   const [ticketId, setTicketId] = useState("");
   const [ticketSubject, setTicketSubject] = useState("");
   const [resolution, setResolution] = useState("");
-  const [isRecording, setIsRecording] = useState<boolean>(false); 
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const recognitionRef = useRef<any>(null);
   const uploadButtonText = loading ? "Uploading..." : "Upload Document";
   const uploadButtonDisabled = !file || loading;
   const inputFieldStyle = `w-full resize-none rounded-lg border-2 border-black px-4 py-2 pr-24 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white`;
@@ -37,12 +38,6 @@ const GoDeskless = () => {
         ? "bg-blue-500 text-white"
         : "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white"
     }`;
-
-  useEffect(() => {
-    if (messageListRef.current) {
-      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0]);
@@ -67,13 +62,9 @@ const GoDeskless = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post(
-        "http://127.0.0.1:8000/upload/",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        },
-      );
+      const res = await axios.post("http://127.0.0.1:8000/upload/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setMessages([{ role: "assistant", content: res.data.message }]);
       setFile(null);
       setIsUploaded(true);
@@ -101,10 +92,9 @@ const GoDeskless = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/ask/",
-        { prompt: input },
-      );
+      const res = await axios.post("http://127.0.0.1:8000/ask/", {
+        prompt: input,
+      });
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: res.data.answer },
@@ -134,10 +124,9 @@ const GoDeskless = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/insights/",
-        { prompt: input },
-      );
+      const res = await axios.post("http://127.0.0.1:8000/insights/", {
+        prompt: input,
+      });
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: "AI Insight: " + res.data.insight },
@@ -166,8 +155,8 @@ const GoDeskless = () => {
     setLoading(true);
     try {
       await axios.post("http://127.0.0.1:8000/ticket", {
-      ticket_id: ticketId,
-      ticket_subject: ticketSubject,  
+        ticket_id: ticketId,
+        ticket_subject: ticketSubject,
         resolution,
       });
       alert("Ticket submitted successfully!");
@@ -193,36 +182,46 @@ const GoDeskless = () => {
     }
   };
 
-  const startListening = () => {
+  useEffect(() => {
     if (window.SpeechRecognition || (window as any).webkitSpeechRecognition) {
-      const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
+      const SpeechRecognition =
+        window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.lang = "en-US";
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = false;
+
+      recognitionRef.current.onresult = (event: any) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript + " ";
+        }
+        setInput((prevInput) => prevInput + " " + transcript);
+      };
       
-      // recognition.lang = "en-US";
-      recognition.lang = "en-US";
-      recognition.continuous = true;
-      recognition.interimResults = false;
 
-      recognition.onstart = () => {
-        setIsRecording(true);  
+      recognitionRef.current.onend = () => {
+        setIsRecording(false);
       };
 
-      recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setInput(transcript);  
-      };
-
-      recognition.onend = () => {
-        setIsRecording(false); 
-      };
-
-      recognition.onerror = (event: any) => {
+      recognitionRef.current.onerror = (event: any) => {
         console.error("Speech recognition error:", event.error);
       };
+    }
+  }, []);
 
-      recognition.start();
-    } else {
+  const toggleListening = () => {
+    if (!recognitionRef.current) {
       alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    if (isRecording) {
+      recognitionRef.current.stop();
+      setIsRecording(false);
+    } else {
+      recognitionRef.current.start();
+      setIsRecording(true);
     }
   };
 
@@ -237,8 +236,8 @@ const GoDeskless = () => {
                 isDragActive
                   ? "border-blue-500 bg-blue-500/10"
                   : isDark
-                  ? "border-gray-600 hover:border-gray-500"
-                  : "border-gray-300 hover:border-gray-400"
+                    ? "border-gray-600 hover:border-gray-500"
+                    : "border-gray-300 hover:border-gray-400"
               }`}
             >
               <input {...getInputProps()} />
@@ -246,8 +245,8 @@ const GoDeskless = () => {
                 {file
                   ? file.name
                   : isDragActive
-                  ? "Drop the file here"
-                  : "Drag and drop a file, or click to select"}
+                    ? "Drop the file here"
+                    : "Drag and drop a file, or click to select"}
               </p>
               <p className="mt-2 text-sm text-gray-500">
                 Supported formats: PDF, DOC, DOCX
@@ -276,7 +275,6 @@ const GoDeskless = () => {
     );
   }
 
-
   return (
     <div className="flex h-full flex-col">
       {/* Messages */}
@@ -293,7 +291,6 @@ const GoDeskless = () => {
                 message.role === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              
               {message.role === "assistant" && (
                 <Image
                   src={gemini}
@@ -310,7 +307,9 @@ const GoDeskless = () => {
                     : "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white"
                 }`}
               >
-                <ReactMarkdown className="prose" remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+                <ReactMarkdown className="prose" remarkPlugins={[remarkGfm]}>
+                  {message.content}
+                </ReactMarkdown>
               </div>
               {message.role === "user" && (
                 <div
@@ -350,101 +349,60 @@ const GoDeskless = () => {
         </div>
       </div>
 
-      {/* Input */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white px-4 py-4 shadow-md dark:bg-black dark:text-white">
-        <div className="mx-auto max-w-xl">
-          <div className="relative flex items-center">
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder="Ask anything..."
-              className={inputFieldStyle}
-              rows={1}
-              style={{ minHeight: "44px" }}
-            />
-            <div className="absolute right-2 flex space-x-2">
-              <button
-                onClick={startListening}
-                disabled={isRecording || loading}
-                className={`rounded-lg p-2 ${isDark ? "text-gray-400" : "text-gray-600"} disabled:brightness-150% hover:brightness-50 hover:filter`}
-              >
-                <Mic className="h-5 w-5" />
-              </button>
-              <button
-                onClick={askQuestion}
-                disabled={loading || !input.trim()}
-                className={`rounded-lg p-2 ${
-                  isDark
-                    ? "text-gray-400 hover:text-black"
-                    : "text-gray-600 hover:text-gray-900"
-                } disabled:opacity-50`}
-              >
-                <Send className="h-5 w-5" />
-              </button>
-              <button
-                onClick={fetchInsight}
-                disabled={loading || !input.trim()}
-                className={`rounded-lg p-2 ${
-                  isDark
-                    ? "text-gray-400 hover:text-black"
-                    : "text-gray-600 hover:text-gray-900"
-                } disabled:brightness-150% hover:brightness-50 hover:filter`}
-              >
-                <Image src={stars} alt="Send" className="h-7 w-7" />
-              </button>
-              <button onClick={() => setIsModalOpen(true)}>
-        <Image src={gemini} alt="Gemini" className="h-7 w-7" />
-      </button>
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full h-full">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 max-w-full flex-col">
-            <h2 className="text-xl font-semibold mb-4">Submit Ticket</h2>
-            <input
-              type="text"
-              placeholder="#ticket id"
-              value={ticketId}
-              onChange={(e) => setTicketId(e.target.value)}
-              className="w-full mb-2 p-2 border rounded"
-            />
-            <input
-              type="text"
-              placeholder="ticket subject"
-              value={ticketSubject}
-              onChange={(e) => setTicketSubject(e.target.value)}
-              className="w-full mb-2 p-2 border rounded"
-            />
-            <textarea
-              placeholder="kaise resolve hua"
-              value={resolution}
-              onChange={(e) => setResolution(e.target.value)}
-              className="w-full mb-2 p-2 border rounded"
-            ></textarea>
-            <div className="flex justify-center space-x-2">
-              <button
-                onClick={() => {setIsModalOpen(false);
-                  setTicketId("");
-                  setTicketSubject("");
-                  setResolution("");}}
-                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                disabled={loading}
-              >
-                {loading ? "Submitting..." : "Submit"}
-              </button>
-            </div>
+{/* Input */}
+{/* Input */}
+<div className="fixed bottom-0 left-0 right-0 bg-white px-4 py-4 shadow-md dark:bg-black dark:text-white">
+      <div className="mx-auto max-w-xl">
+        <div className="relative flex items-center">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            placeholder="Ask anything..."
+            className={`${inputFieldStyle} pr-48`} 
+            rows={1}
+            style={{
+              minHeight: "44px",
+              resize: "none",
+              overflowY: "auto",
+              maxHeight: "200px", 
+            }}
+          />
+          <div className="absolute right-2 flex items-center space-x-2">
+            <div className="h-8 w-px bg-gray-300 dark:bg-gray-700 mr-2"></div>
+            <button
+              onClick={askQuestion}
+              disabled={loading || !input.trim()}
+              className={`rounded-lg p-2 ${
+                isDark ? "text-gray-400 hover:text-black" : "text-gray-600 hover:text-gray-900"
+              } disabled:opacity-50`}
+            >
+              <Send className="h-5 w-5" />
+            </button>
+            <button
+              onClick={fetchInsight}
+              disabled={loading || !input.trim()}
+              className={`rounded-lg p-2 ${
+                isDark ? "text-gray-400 hover:text-black" : "text-gray-600 hover:text-gray-900"
+              } disabled:brightness-50 hover:brightness-50 hover:filter`}
+            >
+              <Image src={stars || "/placeholder.svg"} alt="Send" className="h-7 w-7" />
+            </button>
+            <button onClick={() => setIsModalOpen(true)}>
+              <Image src={gemini || "/placeholder.svg"} alt="Gemini" className="h-7 w-7" />
+            </button>
+            <button
+              onClick={toggleListening}
+              className={`flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white transition-all hover:bg-blue-700 ${
+                isRecording ? "animate-pulse" : ""
+              } mr-2`}
+            >
+              <Mic className="h-5 w-5 text-white" />
+            </button>
           </div>
-        </div>
-      )}
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };
