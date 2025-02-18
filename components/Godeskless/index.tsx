@@ -28,7 +28,7 @@ const GoDeskless = () => {
   const [ticketSubject, setTicketSubject] = useState("");
   const [resolution, setResolution] = useState("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const uploadButtonText = loading ? "Uploading..." : "Upload Document";
   const uploadButtonDisabled = !file || loading;
   const inputFieldStyle = `w-full resize-none rounded-lg border-2 border-black px-4 py-2 pr-24 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white`;
