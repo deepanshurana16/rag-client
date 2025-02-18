@@ -15,6 +15,13 @@ interface Message {
   content: string;
 }
 
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 const GoDeskless = () => {
   const [file, setFile] = useState<File | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
