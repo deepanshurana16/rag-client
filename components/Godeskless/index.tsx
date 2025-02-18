@@ -348,8 +348,6 @@ const GoDeskless = () => {
           )}
         </div>
       </div>
-
-{/* Input */}
 {/* Input */}
 <div className="fixed bottom-0 left-0 right-0 bg-white px-4 py-4 shadow-md dark:bg-black dark:text-white">
       <div className="mx-auto max-w-xl">
@@ -393,6 +391,51 @@ const GoDeskless = () => {
             <button onClick={() => setIsModalOpen(true)}>
               <Image src={gemini || "/placeholder.svg"} alt="Gemini" className="h-7 w-7" />
             </button>
+            {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full h-full">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 max-w-full flex-col">
+            <h2 className="text-xl font-semibold mb-4">Submit Ticket</h2>
+            <input
+              type="text"
+              placeholder="#Ticket ID"
+              value={ticketId}
+              onChange={(e) => setTicketId(e.target.value)}
+              className="w-full mb-2 p-2 border rounded"
+            />
+            <input
+              type="text"
+              placeholder="Ticket Subject"
+              value={ticketSubject}
+              onChange={(e) => setTicketSubject(e.target.value)}
+              className="w-full mb-2 p-2 border rounded"
+            />
+            <textarea
+              placeholder="Issue Resolution "
+              value={resolution}
+              onChange={(e) => setResolution(e.target.value)}
+              className="w-full mb-2 p-2 border rounded"
+            ></textarea>
+            <div className="flex justify-center space-x-2">
+              <button
+                onClick={() => {setIsModalOpen(false);
+                  setTicketId("");
+                  setTicketSubject("");
+                  setResolution("");}}
+                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
             <button
               onClick={toggleListening}
               className={`flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white transition-all hover:bg-blue-700 ${
