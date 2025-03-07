@@ -74,6 +74,12 @@ const menuData: Menu[] = [
     title: "Try I·S·R·A 🛠️",
     newTab:false,
     path:"/godeskless"
+  },
+  {
+    id:6,
+    title: "View Documents 📁",
+    newTab:false,
+    path:"/uploadeddocuments"
   }
 ];
 

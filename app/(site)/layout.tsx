@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isGodeskless = pathname === '/godeskless';
+  const isSimplifiedHeader = pathname === '/godeskless' || pathname === '/uploadeddocuments';
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -28,14 +28,12 @@ export default function RootLayout({
         <ThemeProvider attribute="class" enableSystem defaultTheme="light">
           <Lines />
           <ToasterContext />
-          {isGodeskless ? <SimplifiedHeader /> : <Header />}
+          {isSimplifiedHeader ? <SimplifiedHeader /> : <Header />}
           {children}
-          {!isGodeskless && <Footer />}
+          {!isSimplifiedHeader && <Footer />}
           <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>
   );
 }
-
-// TODO: HOF
