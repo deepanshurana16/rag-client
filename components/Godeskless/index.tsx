@@ -27,6 +27,7 @@ declare global {
 const GoDeskless = () => {
   const [file, setFile] = useState<File | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [input, setInput] = useState<string>("")
   const [uploadLoading, setUploadLoading] = useState<boolean>(false)
   const [htmlLoading, setHtmlLoading] = useState<boolean>(false)
@@ -48,6 +49,31 @@ const GoDeskless = () => {
       role === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white"
     }`
   const [url, setUrl] = useState<string>("")
+
+  useEffect(() => {
+    const checkForFiles = async () => {
+      try {
+        setIsLoading(true)
+        const response = await axios.get("http://localhost:8000/files/")
+        
+        if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+          // Files exist, go directly to chat
+          setIsUploaded(true)
+          setMessages([{ role: "assistant", content: "Welcome back! Your documents are ready. How can I help you?" }])
+        } else {
+          // No files, show upload screen
+          setIsUploaded(false)
+        }
+      } catch (error) {
+        console.error("Error checking for files:", error)
+        setIsUploaded(false)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+  
+    checkForFiles()
+  }, [])
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -256,6 +282,17 @@ const GoDeskless = () => {
     } finally {
       setHtmlLoading(false)
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+          <p className="mt-4 text-lg dark:text-white">Checking for documents...</p>
+        </div>
+      </div>
+    )
   }
 
   if (!isUploaded) {

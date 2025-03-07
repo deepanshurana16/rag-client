@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isSimplifiedHeader = pathname === '/godeskless' || pathname === '/uploadeddocuments';
+  const isSimplifiedHeader = pathname === '/godeskless' || pathname === '/managedocuments';
 
   return (
     <html lang="en" suppressHydrationWarning>

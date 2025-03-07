@@ -77,9 +77,9 @@ const menuData: Menu[] = [
   },
   {
     id:6,
-    title: "View Documents 📁",
+    title: "Manage Documents 📁",
     newTab:false,
-    path:"/uploadeddocuments"
+    path:"/managedocuments"
   }
 ];
 
